@@ -74,7 +74,7 @@ const Canvas:FC<CanvasProps> = ({ width, height, images}) => {
         const mousePosition = getCoordinates(event);
 
         if (context && mousePosition) {
-            const max_length = canvas.width / 3
+            const max_length = canvas.width / 8
             const ratio = Math.min(max_length / image.width, max_length / image.height);
             const centerShift_x = mousePosition.x - (image.width*ratio) / 2;
             const centerShift_y = mousePosition.y - (image.height*ratio) / 2;  
@@ -95,6 +95,24 @@ const Canvas:FC<CanvasProps> = ({ width, height, images}) => {
     const onClick = (_event: MouseEvent) => {
         setIndex((index + 1) % images.length)
     }
+
+    useEffect(() => {
+        if (!canvasRef.current) {
+            return;
+        }
+
+        const canvas: HTMLCanvasElement = canvasRef.current;
+        const context = canvas.getContext('2d');
+        const boundingReact = canvas.getBoundingClientRect()
+        canvas.width = boundingReact.width * window.devicePixelRatio
+        canvas.height = boundingReact.height * window.devicePixelRatio
+        canvas.style.width = boundingReact.width + 'px'
+        canvas.style.height = boundingReact.height + 'px'
+
+        if (context) {
+            context.scale(window.devicePixelRatio, window.devicePixelRatio)   
+        }
+    }, [])
 
     useEffect(() => {
         window.addEventListener('mousemove', onMove);
