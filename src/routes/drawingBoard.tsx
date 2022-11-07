@@ -1,7 +1,20 @@
+import { FC, useEffect, useRef, useState } from 'react';
+
 import art1 from './../assets/brush/art_1.png'
 import art2 from './../assets/brush/art_2.png'
 import art3 from './../assets/brush/art_3.png'
-import { FC, useEffect, useRef, useState } from 'react';
+import art4 from './../assets/brush/art_4.png'
+import art5 from './../assets/brush/art_5.png'
+import art6 from './../assets/brush/art_6.png'
+import art7 from './../assets/brush/art_7.png'
+import art8 from './../assets/brush/art_8.png'
+import art9 from './../assets/brush/art_9.png'
+import art10 from './../assets/brush/art_10.png'
+import art11 from './../assets/brush/art_11.png'
+import art12 from './../assets/brush/art_12.png'
+import art13 from './../assets/brush/art_13.png'
+import art14 from './../assets/brush/art_14.png'
+import art15 from './../assets/brush/art_15.png'
 
 const loadImage = (path: string): HTMLImageElement => {
     const image = new Image;
@@ -16,7 +29,9 @@ interface DrawingBoardProps {
 }
 
 export const DrawingBoard:FC<DrawingBoardProps> = ({ width, height }) => {
-    const images: HTMLImageElement[] = [art1, art2, art3].map((value, _index) => loadImage(value))
+    const images: HTMLImageElement[] = [
+        art1, art2, art3, art4, art5, art6, art7, art8, art9, art10, art11, art12, art13, art14, art15
+    ].map((value, _index) => loadImage(value))
 
     return <Canvas 
         width={width} height={height} images={images}
@@ -90,5 +105,5 @@ const Canvas:FC<CanvasProps> = ({ width, height, images}) => {
         };
     }, [onMove, onClick]);
 
-    return <canvas ref={canvasRef} height={height} width={width} />;
+    return <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-10" height={height} width={width} />;
 };
