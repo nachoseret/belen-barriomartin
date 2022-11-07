@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 import banner from './../assets/info/banner.png'
-import map from './../assets/info/map.png'
+import map from './../assets/info/map.svg'
 import video from './../assets/info/video.mp4'
 
 export const Info:FC = () => {
@@ -18,7 +18,7 @@ export const Info:FC = () => {
                 Martin te invita a participar de sus propuestas brindándote el espacio perfecto
                 para compartir tu arte.
             </p>
-            <img src={map} />
+            <img className='w-screen py-3' src={map} />
             <p className="p-5 text-2xl font-light">
             En nuestro mapa podes encontrar nuestra red de puntos art, espacios preparados para la
             intervención, además de los puntos de mayor interés cultural del barrio.
