@@ -12,6 +12,12 @@ export const Root:FC = () => {
             <DrawingBoard 
                 width={window.innerWidth} height={window.innerHeight}
             />
+            <div className="absolute bottom-0 w-screen p-5 flex items-center justify-center z-20">
+                <p className="text-sm font-light">
+                    Sacá un screenshot y mandánoslo a nuestro Instagram 
+                    (<a className="font-semibold" href="https://www.instagram.com/barriomartin.ros/" target="_blank">@barriomartin.ros</a>)
+                </p>
+            </div>
         </div>
     )
 }
