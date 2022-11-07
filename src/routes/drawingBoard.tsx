@@ -62,7 +62,36 @@ const Canvas:FC<CanvasProps> = ({ width, height, images}) => {
         return { x: event.pageX - canvas.offsetLeft, y: event.pageY - canvas.offsetTop};
     };
 
+    const getTouchCoordinates = (event: TouchEvent): Coordinate | undefined => {
+        if (!canvasRef.current) {
+            return;
+        }
+
+        const canvas: HTMLCanvasElement = canvasRef.current;
+        return { x: event.touches[0].pageX - canvas.offsetLeft, y: event.touches[0].pageY - canvas.offsetTop};
+    };
+
     const onMove = (event: MouseEvent) => {
+        const mousePosition = getCoordinates(event);
+        if(!mousePosition){
+            return
+        }
+
+        draw(mousePosition)
+    }
+
+    const onTouch = (event: TouchEvent) => {
+        event.preventDefault();
+        const touchPosition = getTouchCoordinates(event);
+
+        if(!touchPosition){
+            return
+        }
+
+        draw(touchPosition)
+    }
+
+    const draw = (coordinate: Coordinate) => {
         const image = images[index]
 
         if (!canvasRef.current || !image.complete ) {
@@ -71,13 +100,12 @@ const Canvas:FC<CanvasProps> = ({ width, height, images}) => {
 
         const canvas: HTMLCanvasElement = canvasRef.current;
         const context = canvas.getContext('2d');
-        const mousePosition = getCoordinates(event);
 
-        if (context && mousePosition) {
+        if (context && coordinate) {
             const max_length = canvas.width / 8
             const ratio = Math.min(max_length / image.width, max_length / image.height);
-            const centerShift_x = mousePosition.x - (image.width*ratio) / 2;
-            const centerShift_y = mousePosition.y - (image.height*ratio) / 2;  
+            const centerShift_x = coordinate.x - (image.width*ratio) / 2;
+            const centerShift_y = coordinate.y - (image.height*ratio) / 2;  
             context.drawImage(
                 image, 
                 0,
@@ -115,11 +143,17 @@ const Canvas:FC<CanvasProps> = ({ width, height, images}) => {
     }, [])
 
     useEffect(() => {
-        window.addEventListener('mousemove', onMove);
-        window.addEventListener('click', onClick);
+        if (!canvasRef.current) {
+            return;
+        }
+        const canvas: HTMLCanvasElement = canvasRef.current;
+        canvas.addEventListener('mousemove', onMove);
+        canvas.addEventListener('touchmove', onTouch);
+        canvas.addEventListener('click', onClick);
         return () => {
-            window.removeEventListener('mousemove', onMove);
-            window.removeEventListener('click', onClick);
+            canvas.removeEventListener('mousemove', onMove);
+            canvas.removeEventListener('touchmove', onTouch);
+            canvas.removeEventListener('click', onClick);
         };
     }, [onMove, onClick]);
 
