@@ -23,7 +23,7 @@ export const Info:FC = () => {
             En nuestro mapa podes encontrar nuestra red de puntos art, espacios preparados para la
             intervención, además de los puntos de mayor interés cultural del barrio.
             </p>
-            <video src={video} loop autoPlay muted/>
+            <video src={video} loop autoPlay muted playsInline/>
         </div>
     )
 }
